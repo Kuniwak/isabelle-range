@@ -1,9 +1,9 @@
 theory range imports Main begin
 
-definition R :: "(nat \<times> nat) set" where
+definition R :: "(int \<times> int) set" where
   "R == { (x, y) | x y. x \<le> y }"
 
-lemma le_le_trans[rule_format]: "a \<le> b \<longrightarrow> b \<le> c \<longrightarrow> a \<le> c" for type a::nat
+lemma le_le_trans[rule_format]: "a \<le> b \<longrightarrow> b \<le> c \<longrightarrow> a \<le> c" for type a::int
   apply(intro impI)
   apply(case_tac "a=b")
   apply(erule ssubst)
@@ -39,10 +39,10 @@ theorem "a > b \<Longrightarrow> (a, b) \<notin> R"
   apply(assumption)
   done
 
-fun lower_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
+fun lower_bound :: "(int \<times> int) \<Rightarrow> int" where
   "lower_bound (x, y) = x"
 
-fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
+fun upper_bound :: "(int \<times> int) \<Rightarrow> int" where
   "upper_bound (x, y) = y"
 
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
@@ -67,7 +67,7 @@ theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
   apply(rule refl)
   done
 
-fun in_range :: "nat \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
+fun in_range :: "int \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
   "in_range n (x, y) = (x \<le> n \<and> n \<le> y)"
 
 lemma example_3_8_in_R: "(3, 8) \<in> R"
@@ -98,7 +98,7 @@ theorem example_3_8: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le
   apply(assumption)
   done
 
-fun range_eq :: "(nat \<times> nat) \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
+fun range_eq :: "(int \<times> int) \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
   "range_eq (a1, a2) (b1, b2) = (a1 = b1 \<and> a2 = b2)"
 
 theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
@@ -120,7 +120,7 @@ theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
   apply(rule refl)
   done
 
-fun range_contains :: "(nat \<times> nat) \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
+fun range_contains :: "(int \<times> int) \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
   "range_contains (a1, a2) (b1, b2) = (a1 \<le> b1 \<and> b2 \<le> a2)"
 
 theorem "range_contains (a1, a2) (b1, b2) \<Longrightarrow>
