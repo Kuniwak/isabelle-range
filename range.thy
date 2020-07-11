@@ -111,10 +111,20 @@ theorem "upper_bound (3, 8) = 8"
   apply(rule refl)
   done
 
+fun range_string :: "(int \<times> int) \<Rightarrow> string" where
+  "range_string (a, b) = ''''"
 
 (* NLS-3 *)
 theorem stringify: "r \<in> R \<Longrightarrow> \<exists>s. s = range_string r"
-  oops
+  apply(unfold R_def)
+  apply(erule CollectE)
+  apply(elim exE)
+  apply(erule conjE)
+  apply(erule ssubst)
+  apply(subst range_string.simps)
+  apply(rule_tac x="[]" in exI)
+  apply(rule refl)
+  done
 
 (* NLS-4 *)
 theorem stringify_3_8: "range_string (3, 8) = ''[3,8]''"
