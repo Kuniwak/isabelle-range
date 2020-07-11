@@ -10,7 +10,7 @@ fun lower_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
   "lower_bound (x, y) = x"
 
 fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
-  "upper_bound (x, y) = y"  
+  "upper_bound (x, y) = y"
 
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
