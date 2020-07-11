@@ -13,7 +13,7 @@ fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
   "upper_bound (x, y) = y"
 
 fun in_range :: "nat \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
-  "in_range _ _ = True"
+  "in_range n (x, y) = ((x \<le> n) \<and> (n \<le> y))"
 
 lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(unfold R_def)
@@ -25,11 +25,6 @@ lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(rule TrueI)
   done
 
-lemma example_3_8_N: "\<forall>n::nat. in_range n (3, 8)"
-  apply(subst in_range.simps)
-  apply(rule allI)
-  apply(rule TrueI)
-  done
 
 theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   r \<in> R \<and>
@@ -43,22 +38,76 @@ theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   apply(erule ssubst)
   apply(rule example_3_8_in_R)
   apply(erule ssubst)
-  apply(rule example_3_8_N[rule_format])
-  apply(erule ssubst)
-  apply(rule example_3_8_N[rule_format])
-  apply(erule ssubst)
-  apply(rule example_3_8_N[rule_format])
-  apply(erule ssubst)
-  apply(rule example_3_8_N[rule_format])
-  apply(erule ssubst)
-  apply(rule example_3_8_N[rule_format])
-  apply(erule ssubst)
-  apply(rule example_3_8_N[rule_format])
+  apply(subst in_range.simps)
+  apply(rule conjI)
+  apply(rule eq_imp_le)
+  apply(rule refl)
+  apply(rule less_imp_le_nat)
+  apply(auto)
   done
 
-theorem "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
+lemma eq_le_le1: "(c::nat) = a \<longrightarrow> a \<le> b \<longrightarrow> c \<le> a"
+  apply(intro impI)
+  apply(erule subst)
+  apply(rule eq_refl)
+  apply(rule refl)
+  done
+
+lemma eq_le_le2: "(c::nat) = a \<longrightarrow> b \<le> a \<longrightarrow> b \<le> c"
+  apply(intro impI)
+  apply(erule ssubst)
+  apply(assumption)
+  done
+
+lemma le_le_trans: "(a::nat) \<le> b \<longrightarrow> b \<le> c \<longrightarrow> a \<le> c"
+  apply(intro impI)
+  apply(case_tac "a=b")
+  apply(erule ssubst)
+  apply(assumption)
+  apply(drule_tac a=a and b=b in le_neq_trans)
+  apply(assumption)
+  apply(case_tac "b=c")
+  apply(drule_tac x=a and y=b and z=c in less_le_trans)
+  apply(assumption)
+  apply(erule less_imp_le)
+  apply(drule le_neq_trans)
+  apply(assumption)
+  apply(drule_tac x=a and y=b and z=c in less_trans)
+  apply(assumption)
+  apply(erule less_imp_le)
+  done
+
+theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
   (\<forall>n \<in> E. in_range n r) \<and> (\<forall>n::nat. n \<notin> E \<longrightarrow> \<not>in_range n r)"
-  oops
+  apply(elim ssubst)
+  apply(rule conjI)
+  apply(rule ballI)
+  apply(erule CollectE)
+  apply(erule exE)
+  apply(erule conjE)
+  apply(erule ssubst)
+  apply(subst in_range.simps)
+  apply(assumption)
+  apply(rule allI)
+  apply(rule impI)
+  apply(rule notI)
+  apply(erule in_range.elims)
+  apply(erule notE)
+  apply(erule ssubst)
+  apply(erule Pair_inject)
+  apply(erule conjE)
+  apply(rule CollectI)
+  apply(rule_tac x=na in exI)
+  apply(intro conjI)
+  apply(rule refl)
+  apply(drule_tac c=3 and a=x and b=na in eq_le_le1[rule_format])
+  apply(assumption)
+  apply(erule_tac a=3 and b=x and c=na in le_le_trans[rule_format])
+  apply(assumption)
+  apply(erule_tac c=8 and a=y and b=na in eq_le_le2[rule_format])
+  apply(assumption)
+  done
+
 
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
