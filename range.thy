@@ -3,13 +3,6 @@ theory range imports Main begin
 definition R :: "(nat \<times> nat) set" where
   "R == { (x, y) | x y. x \<le> y }"
 
-lemma eq_le_le1[rule_format]: "c = a \<longrightarrow> a \<le> b \<longrightarrow> c \<le> a" for type c::nat
-  apply(intro impI)
-  apply(erule subst)
-  apply(rule eq_refl)
-  apply(rule refl)
-  done
-
 lemma eq_le_le2[rule_format]: "c = a \<longrightarrow> b \<le> a \<longrightarrow> b \<le> c" for type c::nat
   apply(intro impI)
   apply(erule ssubst)
@@ -41,8 +34,7 @@ theorem "a > b \<Longrightarrow> (a, b) \<notin> R"
   apply(elim exE)
   apply(erule conjE)
   apply(erule Pair_inject)
-  apply(drule_tac a=x and b=y in eq_le_le1)
-  apply(assumption)
+  apply(drule_tac eq_refl)
   apply(drule sym)
   apply(drule_tac a=x and b=y and c=b in ord_le_eq_trans)
   apply(assumption)
@@ -171,8 +163,7 @@ theorem "range_contains (a1, a2) (b1, b2) \<Longrightarrow>
   apply(drule_tac a=b2 and b=n and c=b2a in eq_le_le2)
   apply(assumption)
   apply(drule_tac s=b1 in sym)
-  apply(drule_tac a=b1 and b=n and c=b1a in eq_le_le1)
-  apply(assumption)
+  apply(drule_tac x=b1a in eq_refl)
   apply(drule_tac a=a1 and b=b1a and c=n in le_le_trans)
   apply(erule_tac b=b1 and c=n in le_le_trans)
   apply(assumption)
