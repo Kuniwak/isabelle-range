@@ -56,6 +56,10 @@ theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   apply(rule example_3_8_N[rule_format])
   done
 
+theorem "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
+  (\<forall>n \<in> E. in_range n r) \<and> (\<forall>n::nat. n \<notin> E \<longrightarrow> \<not>in_range n r)"
+  oops
+
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
   apply(erule CollectE)
