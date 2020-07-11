@@ -9,6 +9,28 @@ fun lower_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
 fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
   "upper_bound (x, y) = y"
 
+theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
+  apply(unfold R_def)
+  apply(erule CollectE)
+  apply(elim exE)
+  apply(drule conjunct1)
+  apply(erule ssubst)
+  apply(subst lower_bound.simps)
+  apply(rule_tac x=x in exI)
+  apply(rule refl)
+  done
+
+theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
+  apply(unfold R_def)
+  apply(erule CollectE)
+  apply(elim exE)
+  apply(drule conjunct1)
+  apply(erule ssubst)
+  apply(subst upper_bound.simps)
+  apply(rule_tac x=y in exI)
+  apply(rule refl)
+  done
+
 fun in_range :: "nat \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
   "in_range n (x, y) = ((x \<le> n) \<and> (n \<le> y))"
 
@@ -21,7 +43,6 @@ lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(rule refl)
   apply(rule TrueI)
   done
-
 
 theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   r \<in> R \<and>
@@ -103,26 +124,4 @@ theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<
   apply(assumption)
   apply(erule_tac c=8 and a=y and b=na in eq_le_le2[rule_format])
   apply(assumption)
-  done
-
-theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
-  apply(unfold R_def)
-  apply(erule CollectE)
-  apply(elim exE)
-  apply(drule conjunct1)
-  apply(erule ssubst)
-  apply(subst lower_bound.simps)
-  apply(rule_tac x=x in exI)
-  apply(rule refl)
-  done
-
-theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
-  apply(unfold R_def)
-  apply(erule CollectE)
-  apply(elim exE)
-  apply(drule conjunct1)
-  apply(erule ssubst)
-  apply(subst upper_bound.simps)
-  apply(rule_tac x=y in exI)
-  apply(rule refl)
   done
