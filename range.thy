@@ -12,33 +12,25 @@ fun lower_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
 fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
   "upper_bound (x, y) = y"  
 
-theorem "r \<in> R \<Longrightarrow> lower_bound r \<in> N"
+theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
-  apply(unfold N_def)
   apply(erule CollectE)
   apply(elim exE)
   apply(drule conjunct1)
   apply(erule ssubst)
   apply(subst lower_bound.simps)
-  apply(rule CollectI)
   apply(rule_tac x=x in exI)
-  apply(rule conjI)
   apply(rule refl)
-  apply(rule TrueI)
   done
 
-theorem "r \<in> R \<Longrightarrow> upper_bound r \<in> N"
+theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
   apply(unfold R_def)
-  apply(unfold N_def)
   apply(erule CollectE)
   apply(elim exE)
   apply(drule conjunct1)
   apply(erule ssubst)
-  apply(rule CollectI)
   apply(subst upper_bound.simps)
   apply(rule_tac x=y in exI)
-  apply(rule conjI)
   apply(rule refl)
-  apply(rule TrueI)
   done
 end
