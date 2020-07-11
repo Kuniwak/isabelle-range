@@ -80,27 +80,7 @@ lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(simp)
   done
 
-theorem example_3_8: "r = (3, 8) \<Longrightarrow>
-  r \<in> R \<and>
-  in_range 3 r \<and>
-  in_range 4 r \<and>
-  in_range 5 r \<and>
-  in_range 6 r \<and>
-  in_range 7 r \<and>
-  in_range 8 r"
-  apply(intro conjI)
-  apply(erule ssubst)
-  apply(rule example_3_8_in_R)
-  apply(erule ssubst)
-  apply(subst in_range.simps)
-  apply(rule conjI)
-  apply(rule eq_imp_le)
-  apply(rule refl)
-  apply(rule less_imp_le_nat)
-  apply(auto)
-  done
-
-theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
+theorem example_3_8: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
     \<forall>n. n \<in> E \<longleftrightarrow> in_range n r"
   apply(elim ssubst)
   apply(subst in_range.simps)
