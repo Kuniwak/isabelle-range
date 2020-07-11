@@ -1,5 +1,6 @@
 theory range imports Main begin
 
+(* NLS-1 *)
 definition R :: "(int \<times> int) set" where
   "R == { (x, y) | x y. x \<le> y }"
 
@@ -21,6 +22,7 @@ lemma le_le_trans[rule_format]: "a \<le> b \<longrightarrow> b \<le> c \<longrig
   apply(erule less_imp_le)
   done
 
+(* NLS-5 *)
 theorem "a > b \<Longrightarrow> (a, b) \<notin> R"
   apply(unfold R_def)
   apply(rule notI)
@@ -45,6 +47,7 @@ fun lower_bound :: "(int \<times> int) \<Rightarrow> int" where
 fun upper_bound :: "(int \<times> int) \<Rightarrow> int" where
   "upper_bound (x, y) = y"
 
+(* NLS-2 *)
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
   apply(erule CollectE)
@@ -56,6 +59,7 @@ theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(rule refl)
   done
 
+(* NLS-2 *)
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
   apply(unfold R_def)
   apply(erule CollectE)
@@ -70,6 +74,11 @@ theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
 fun in_range :: "int \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
   "in_range n (x, y) = (x \<le> n \<and> n \<le> y)"
 
+(* NLS-6 *)
+theorem "\<forall>n. \<forall>r \<in> R. \<exists>b. b = in_range n r"
+  oops
+
+(* NLS-9 *)
 lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(unfold R_def)
   apply(rule CollectI)
@@ -80,6 +89,15 @@ lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(simp)
   done
 
+(* NLS-10 *)
+theorem "lower_bound (3, 8) = 3"
+  oops
+
+(* NLS-10 *)
+theorem "upper_bound (3, 8) = 8"
+  oops
+
+(* NLS-11, NLS-12 *)
 theorem example_3_8: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
     \<forall>n. n \<in> E \<longleftrightarrow> in_range n r"
   apply(elim ssubst)
@@ -101,6 +119,7 @@ theorem example_3_8: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le
 fun range_eq :: "(int \<times> int) \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
   "range_eq (a1, a2) (b1, b2) = (a1 = b1 \<and> a2 = b2)"
 
+(* NLS-7 *)
 theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
     \<forall>n. in_range n (a1, a2) \<longleftrightarrow> in_range n (b1, b2)"
   apply(erule range_eq.elims)
@@ -123,6 +142,7 @@ theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
 fun range_contains :: "(int \<times> int) \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
   "range_contains (a1, a2) (b1, b2) = (a1 \<le> b1 \<and> b2 \<le> a2)"
 
+(* NLS-8 *)
 theorem "range_contains (a1, a2) (b1, b2) \<Longrightarrow>
     \<forall>n. in_range n (b1, b2) \<longrightarrow> in_range n (a1, a2)"
   apply(unfold in_range.simps)
