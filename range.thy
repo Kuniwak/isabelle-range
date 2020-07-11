@@ -3,20 +3,20 @@ theory range imports Main begin
 definition R :: "(nat \<times> nat) set" where
   "R == { (x, y) | x y. x \<le> y }"
 
-lemma eq_le_le1: "(c::nat) = a \<longrightarrow> a \<le> b \<longrightarrow> c \<le> a"
+lemma eq_le_le1[rule_format]: "c = a \<longrightarrow> a \<le> b \<longrightarrow> c \<le> a" for type c::nat
   apply(intro impI)
   apply(erule subst)
   apply(rule eq_refl)
   apply(rule refl)
   done
 
-lemma eq_le_le2: "(c::nat) = a \<longrightarrow> b \<le> a \<longrightarrow> b \<le> c"
+lemma eq_le_le2[rule_format]: "c = a \<longrightarrow> b \<le> a \<longrightarrow> b \<le> c" for type c::nat
   apply(intro impI)
   apply(erule ssubst)
   apply(assumption)
   done
 
-lemma le_le_trans: "(a::nat) \<le> b \<longrightarrow> b \<le> c \<longrightarrow> a \<le> c"
+lemma le_le_trans[rule_format]: "a \<le> b \<longrightarrow> b \<le> c \<longrightarrow> a \<le> c" for type a::nat
   apply(intro impI)
   apply(case_tac "a=b")
   apply(erule ssubst)
@@ -41,12 +41,12 @@ theorem "a > b \<Longrightarrow> (a, b) \<notin> R"
   apply(elim exE)
   apply(erule conjE)
   apply(erule Pair_inject)
-  apply(drule_tac a=x and b=y in eq_le_le1[rule_format])
+  apply(drule_tac a=x and b=y in eq_le_le1)
   apply(assumption)
   apply(drule sym)
   apply(drule_tac a=x and b=y and c=b in ord_le_eq_trans)
   apply(assumption)
-  apply(drule_tac a=a and b=x and c=b in le_le_trans[rule_format])
+  apply(drule_tac a=a and b=x and c=b in le_le_trans)
   apply(assumption)
   apply(drule_tac y=a in leD)
   apply(erule notE)
@@ -82,7 +82,7 @@ theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
   done
 
 fun in_range :: "nat \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
-  "in_range n (x, y) = ((x \<le> n) \<and> (n \<le> y))"
+  "in_range n (x, y) = (x \<le> n \<and> n \<le> y)"
 
 lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(unfold R_def)
@@ -133,7 +133,7 @@ theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<
   done
 
 fun range_eq :: "(nat \<times> nat) \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
-  "range_eq (a1, a2) (b1, b2) = ((a1 = b1) \<and> (a2 = b2))"
+  "range_eq (a1, a2) (b1, b2) = (a1 = b1 \<and> a2 = b2)"
 
 theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
     \<forall>n. in_range n (a1, a2) \<longleftrightarrow> in_range n (b1, b2)"
