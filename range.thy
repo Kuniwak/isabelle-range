@@ -101,11 +101,15 @@ lemma example_3_8_in_R: "(3, 8) \<in> R"
 
 (* NLS-10 *)
 theorem "lower_bound (3, 8) = 3"
-  oops
+  apply(subst lower_bound.simps)
+  apply(rule refl)
+  done
 
 (* NLS-10 *)
 theorem "upper_bound (3, 8) = 8"
-  oops
+  apply(subst upper_bound.simps)
+  apply(rule refl)
+  done
 
 (* NLS-11, NLS-12 *)
 theorem example_3_8: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
