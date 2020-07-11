@@ -126,5 +126,23 @@ theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<
   apply(assumption)
   done
 
-theorem "range_eq a b \<Longrightarrow> \<forall>n::nat. in_range n a \<longleftrightarrow> in_range n b"
-  oops
+fun range_eq :: "(nat \<times> nat) \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
+  "range_eq (a1, a2) (b1, b2) = ((a1 = b1) \<and> (a2 = b2))"
+
+theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow> \<forall>n::nat. in_range n (a1, a2) \<longleftrightarrow> in_range n (b1, b2)"
+  apply(erule range_eq.elims)
+  apply(rule allI)
+  apply(erule conjE)
+  apply(elim Pair_inject)
+  apply(drule_tac r=a1 and s=a1a and t=b1a in trans)
+  apply(assumption)
+  apply(drule_tac r=a1 and s=b1a and t=b1 in trans_sym)
+  apply(assumption)
+  apply(drule_tac r=a2 and s=a2a and t=b2a in trans)
+  apply(assumption)
+  apply(drule_tac r=a2 and s=b2a and t=b2 in trans_sym)
+  apply(assumption)
+  apply(erule_tac t=b1 and s=a1 in subst)
+  apply(erule_tac t=b2 and s=a2 in subst)
+  apply(rule refl)
+  done
