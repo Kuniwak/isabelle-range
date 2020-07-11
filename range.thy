@@ -154,6 +154,34 @@ theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
   apply(rule refl)
   done
 
+fun range_contains :: "(nat \<times> nat) \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
+  "range_contains (a1, a2) (b1, b2) = (a1 \<le> b1 \<and> b2 \<le> a2)"
+
 theorem "range_contains (a1, a2) (b1, b2) \<Longrightarrow>
     \<forall>n. in_range n (b1, b2) \<longrightarrow> in_range n (a1, a2)"
-  oops
+  apply(unfold in_range.simps)
+  apply(erule range_contains.elims)
+  apply(elim Pair_inject)
+  apply(rule allI)
+  apply(rule impI)
+  apply(elim conjE)
+  apply(rule conjI)
+  apply(erule ssubst)
+  apply(drule_tac s=b2 in sym)
+  apply(drule_tac a=b2 and b=n and c=b2a in eq_le_le2)
+  apply(assumption)
+  apply(drule_tac s=b1 in sym)
+  apply(drule_tac a=b1 and b=n and c=b1a in eq_le_le1)
+  apply(assumption)
+  apply(drule_tac a=a1 and b=b1a and c=n in le_le_trans)
+  apply(erule_tac b=b1 and c=n in le_le_trans)
+  apply(assumption)
+  apply(assumption)
+  apply(drule_tac s=b2 in sym)
+  apply(drule_tac a=b2 and b=n and c=b2a in eq_le_le2)
+  apply(assumption)
+  apply(drule_tac a=n and b=b2a and c=a2a in le_le_trans)
+  apply(assumption)
+  apply(erule_tac t=a2 in ssubst)
+  apply(assumption)
+  done
