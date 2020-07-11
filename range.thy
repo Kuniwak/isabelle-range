@@ -39,7 +39,22 @@ theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   in_range 6 r \<and>
   in_range 7 r \<and>
   in_range 8 r"
-  oops
+  apply(intro conjI)
+  apply(erule ssubst)
+  apply(rule example_3_8_in_R)
+  apply(erule ssubst)
+  apply(rule example_3_8_N[rule_format])
+  apply(erule ssubst)
+  apply(rule example_3_8_N[rule_format])
+  apply(erule ssubst)
+  apply(rule example_3_8_N[rule_format])
+  apply(erule ssubst)
+  apply(rule example_3_8_N[rule_format])
+  apply(erule ssubst)
+  apply(rule example_3_8_N[rule_format])
+  apply(erule ssubst)
+  apply(rule example_3_8_N[rule_format])
+  done
 
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
