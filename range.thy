@@ -135,7 +135,8 @@ theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<
 fun range_eq :: "(nat \<times> nat) \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
   "range_eq (a1, a2) (b1, b2) = ((a1 = b1) \<and> (a2 = b2))"
 
-theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow> \<forall>n::nat. in_range n (a1, a2) \<longleftrightarrow> in_range n (b1, b2)"
+theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
+    \<forall>n. in_range n (a1, a2) \<longleftrightarrow> in_range n (b1, b2)"
   apply(erule range_eq.elims)
   apply(rule allI)
   apply(erule conjE)
