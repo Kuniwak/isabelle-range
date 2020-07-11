@@ -12,6 +12,16 @@ fun lower_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
 fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
   "upper_bound (x, y) = y"
 
+theorem example_3_8: "r = (3, 8) \<Longrightarrow>
+  r \<in> R \<and>
+  in_range 3 r \<and>
+  in_range 4 r \<and>
+  in_range 5 r \<and>
+  in_range 6 r \<and>
+  in_range 7 r \<and>
+  in_range 8 r"
+  oops 
+
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
   apply(erule CollectE)
