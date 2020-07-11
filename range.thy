@@ -111,6 +111,15 @@ theorem "upper_bound (3, 8) = 8"
   apply(rule refl)
   done
 
+
+(* NLS-3 *)
+theorem stringify: "r \<in> R \<Longrightarrow> \<exists>s. s = range_string r"
+  oops
+
+(* NLS-4 *)
+theorem stringify_3_8: "range_string (3, 8) = ''[3,8]''"
+  oops
+
 (* NLS-11, NLS-12 *)
 theorem example_3_8: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
     \<forall>n. n \<in> E \<longleftrightarrow> in_range n r"
