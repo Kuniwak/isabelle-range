@@ -111,8 +111,30 @@ theorem "upper_bound (3, 8) = 8"
   apply(rule refl)
   done
 
+fun char_of_digit :: "nat \<Rightarrow> char" where
+  c0: "char_of_digit 0 = CHR ''0''" |
+  c1: "char_of_digit (Suc 0) = CHR ''1''" |
+  c2: "char_of_digit (Suc (Suc 0)) = CHR ''2''" |
+  c3: "char_of_digit (Suc (Suc (Suc 0))) = CHR ''3''" |
+  c4: "char_of_digit (Suc (Suc (Suc (Suc 0)))) = CHR ''4''" |
+  c5: "char_of_digit (Suc (Suc (Suc (Suc (Suc 0))))) = CHR ''5''" |
+  c6: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc 0)))))) = CHR ''6''" |
+  c7: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0))))))) = CHR ''7''" |
+  c8: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0)))))))) = CHR ''8''" |
+  c9: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0))))))))) = CHR ''9''"
+
+fun string_of_nat :: "nat \<Rightarrow> string" where
+  "string_of_nat i = (if i < 10
+    then [char_of_digit i]
+    else (string_of_nat (i div 10)) @ [char_of_digit (i mod 10)])"
+
+fun string_of_int :: "int \<Rightarrow> string" where
+  "string_of_int i = (if i > 0
+    then string_of_nat (nat i)
+    else (CHR ''-'') # (string_of_nat (nat \<bar>i\<bar>)))"
+
 fun range_string :: "(int \<times> int) \<Rightarrow> string" where
-  "range_string (a, b) = ''''"
+  "range_string (a, b) = [CHR ''[''] @ (string_of_int a) @ [CHR '',''] @ (string_of_int b) @ [CHR '']'']"
 
 (* NLS-3 *)
 theorem stringify: "r \<in> R \<Longrightarrow> \<exists>s. s = range_string r"
@@ -121,14 +143,25 @@ theorem stringify: "r \<in> R \<Longrightarrow> \<exists>s. s = range_string r"
   apply(elim exE)
   apply(erule conjE)
   apply(erule ssubst)
-  apply(subst range_string.simps)
-  apply(rule_tac x="[]" in exI)
+  apply(rule_tac x="range_string (x, y)" in exI)
   apply(rule refl)
   done
 
 (* NLS-4 *)
 theorem stringify_3_8: "range_string (3, 8) = ''[3,8]''"
-  oops
+  apply(unfold range_string.simps)
+  apply(unfold string_of_int.simps)
+  apply(simp)
+  apply(rule conjI)
+  apply(subgoal_tac "3 = (Suc (Suc (Suc 0)))")
+  apply(erule ssubst)
+  apply(rule c3)
+  apply(simp)
+  apply(subgoal_tac "8 = (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0))))))))")
+  apply(erule ssubst)
+  apply(rule c8)
+  apply(simp)
+  done
 
 (* NLS-11, NLS-12 *)
 theorem example_3_8: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
