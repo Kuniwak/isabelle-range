@@ -9,6 +9,9 @@ definition R :: "(nat \<times> nat) set" where
 fun lower_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
   "lower_bound (x, y) = x"
 
+fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
+  "upper_bound (x, y) = y"  
+
 theorem "r \<in> R \<Longrightarrow> lower_bound r \<in> N"
   apply(unfold R_def)
   apply(unfold N_def)
@@ -24,4 +27,18 @@ theorem "r \<in> R \<Longrightarrow> lower_bound r \<in> N"
   apply(rule TrueI)
   done
 
+theorem "r \<in> R \<Longrightarrow> upper_bound r \<in> N"
+  apply(unfold R_def)
+  apply(unfold N_def)
+  apply(erule CollectE)
+  apply(elim exE)
+  apply(drule conjunct1)
+  apply(erule ssubst)
+  apply(rule CollectI)
+  apply(subst upper_bound.simps)
+  apply(rule_tac x=y in exI)
+  apply(rule conjI)
+  apply(rule refl)
+  apply(rule TrueI)
+  done
 end
