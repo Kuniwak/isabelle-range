@@ -4,22 +4,14 @@ theory range imports Main begin
 definition R :: "(int \<times> int) set" where
   "R == { (x, y) | x y. x \<le> y }"
 
-lemma le_le_trans[rule_format]: "a \<le> b \<longrightarrow> b \<le> c \<longrightarrow> a \<le> c" for type a::int
-  apply(intro impI)
-  apply(case_tac "a=b")
-  apply(erule ssubst)
+lemma le_le_trans: "\<lbrakk> a \<le> b; b \<le> c \<rbrakk> \<Longrightarrow> a \<le> c" for type a::int
+  apply(rule leI)
+  apply(rule notI)
+  apply(drule_tac x=c and y=a and z=b in less_le_trans)
   apply(assumption)
-  apply(drule_tac a=a and b=b in le_neq_trans)
+  apply(drule_tac y=b in leD)
+  apply(erule notE)
   apply(assumption)
-  apply(case_tac "b=c")
-  apply(drule_tac x=a and y=b and z=c in less_le_trans)
-  apply(assumption)
-  apply(erule less_imp_le)
-  apply(drule le_neq_trans)
-  apply(assumption)
-  apply(drule_tac x=a and y=b and z=c in less_trans)
-  apply(assumption)
-  apply(erule less_imp_le)
   done
 
 (* NLS-5 *)
