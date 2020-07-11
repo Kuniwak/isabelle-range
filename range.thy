@@ -125,3 +125,6 @@ theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<
   apply(erule_tac c=8 and a=y and b=na in eq_le_le2[rule_format])
   apply(assumption)
   done
+
+theorem "range_eq a b \<Longrightarrow> \<forall>n::nat. in_range n a \<longleftrightarrow> in_range n b"
+  oops
