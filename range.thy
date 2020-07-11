@@ -121,7 +121,8 @@ fun char_of_digit :: "nat \<Rightarrow> char" where
   c6: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc 0)))))) = CHR ''6''" |
   c7: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0))))))) = CHR ''7''" |
   c8: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0)))))))) = CHR ''8''" |
-  c9: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0))))))))) = CHR ''9''"
+  c9: "char_of_digit (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc (Suc 0))))))))) = CHR ''9''" |
+  "char_of_digit _ = CHR ''?''"
 
 fun string_of_nat :: "nat \<Rightarrow> string" where
   "string_of_nat i = (if i < 10
