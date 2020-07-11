@@ -153,3 +153,7 @@ theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
   apply(erule_tac t=b2 and s=a2 in subst)
   apply(rule refl)
   done
+
+theorem "range_contains (a1, a2) (b1, b2) \<Longrightarrow>
+    \<forall>n. in_range n (b1, b2) \<longrightarrow> in_range n (a1, a2)"
+  oops
