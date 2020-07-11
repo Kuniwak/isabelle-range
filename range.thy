@@ -25,8 +25,9 @@ lemma example_3_8_in_R: "(3, 8) \<in> R"
   apply(rule TrueI)
   done
 
-lemma example_3_8_3: "in_range 3 (3, 8)"
+lemma example_3_8_N: "\<forall>n::nat. in_range n (3, 8)"
   apply(subst in_range.simps)
+  apply(rule allI)
   apply(rule TrueI)
   done
 
