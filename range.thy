@@ -12,6 +12,24 @@ fun lower_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
 fun upper_bound :: "(nat \<times> nat) \<Rightarrow> nat" where
   "upper_bound (x, y) = y"
 
+fun in_range :: "nat \<Rightarrow> (nat \<times> nat) \<Rightarrow> bool" where
+  "in_range _ _ = True"
+
+lemma example_3_8_in_R: "(3, 8) \<in> R"
+  apply(unfold R_def)
+  apply(rule CollectI)
+  apply(rule_tac x=3 in exI)
+  apply(rule_tac x=8 in exI)
+  apply(rule conjI)
+  apply(rule refl)
+  apply(rule TrueI)
+  done
+
+lemma example_3_8_3: "in_range 3 (3, 8)"
+  apply(subst in_range.simps)
+  apply(rule TrueI)
+  done
+
 theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   r \<in> R \<and>
   in_range 3 r \<and>
@@ -20,7 +38,7 @@ theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   in_range 6 r \<and>
   in_range 7 r \<and>
   in_range 8 r"
-  oops 
+  oops
 
 theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
   apply(unfold R_def)
@@ -43,4 +61,3 @@ theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
   apply(rule_tac x=y in exI)
   apply(rule refl)
   done
-end
