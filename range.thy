@@ -76,7 +76,17 @@ fun in_range :: "int \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
 
 (* NLS-6 *)
 theorem "\<forall>n. \<forall>r \<in> R. \<exists>b. b = in_range n r"
-  oops
+  apply(unfold R_def)
+  apply(intro allI)
+  apply(rule ballI)
+  apply(erule CollectE)
+  apply(elim exE)
+  apply(erule conjE)
+  apply(erule ssubst)
+  apply(subst in_range.simps)
+  apply(rule_tac x="x \<le> n \<and> n \<le> y" in exI)
+  apply(rule refl)
+  done
 
 (* NLS-9 *)
 lemma example_3_8_in_R: "(3, 8) \<in> R"
