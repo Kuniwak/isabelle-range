@@ -115,33 +115,20 @@ theorem example_3_8: "r = (3, 8) \<Longrightarrow>
   done
 
 theorem example_3_8_w: "\<lbrakk> r = (3, 8); E = { x | x. 3 \<le> x \<and> x \<le> 8 } \<rbrakk> \<Longrightarrow>
-  (\<forall>n \<in> E. in_range n r) \<and> (\<forall>n::nat. n \<notin> E \<longrightarrow> \<not>in_range n r)"
+    \<forall>n. n \<in> E \<longleftrightarrow> in_range n r"
   apply(elim ssubst)
-  apply(rule conjI)
-  apply(rule ballI)
+  apply(subst in_range.simps)
+  apply(rule allI)
+  apply(rule iffI)
   apply(erule CollectE)
   apply(erule exE)
   apply(erule conjE)
   apply(erule ssubst)
-  apply(subst in_range.simps)
   apply(assumption)
-  apply(rule allI)
-  apply(rule impI)
-  apply(rule notI)
-  apply(erule in_range.elims)
-  apply(erule notE)
-  apply(erule ssubst)
-  apply(erule Pair_inject)
-  apply(erule conjE)
   apply(rule CollectI)
-  apply(rule_tac x=na in exI)
-  apply(intro conjI)
+  apply(rule_tac x=n in exI)
+  apply(rule conjI)
   apply(rule refl)
-  apply(drule_tac c=3 and a=x and b=na in eq_le_le1[rule_format])
-  apply(assumption)
-  apply(erule_tac a=3 and b=x and c=na in le_le_trans[rule_format])
-  apply(assumption)
-  apply(erule_tac c=8 and a=y and b=na in eq_le_le2[rule_format])
   apply(assumption)
   done
 
