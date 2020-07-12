@@ -198,6 +198,81 @@ theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
   apply(rule refl)
   done
 
+lemma all_iffD: "(\<forall>x. P x \<longleftrightarrow> Q x) \<Longrightarrow> (\<forall>x. P x \<longrightarrow> Q x) \<and> (\<forall>x. Q x \<longrightarrow> P x)"
+  apply(rule conjI)
+  apply(rule allI)
+  apply(erule_tac x=x in allE)
+  apply(erule iffE)
+  apply(assumption)
+  apply(rule allI)
+  apply(erule_tac x=x in allE)
+  apply(erule iffE)
+  apply(assumption)
+  done
+
+lemma range_uniq: "\<lbrakk> a1 \<le> a2; b1 \<le> b2; \<forall>n. (a1 \<le> n \<and> n \<le> a2) \<longleftrightarrow> (b1 \<le> n \<and> n \<le> b2) \<rbrakk> \<Longrightarrow> a1 = b1 \<and> a2 = b2" for a1::int and a2::int and b1::int and b2::int
+  apply(drule all_iffD)
+  apply(erule conjE)
+  apply(rule conjI)
+  apply(erule_tac x=a1 in allE)
+  apply(erule impE)
+  apply(rule conjI)
+  apply(rule order_refl)
+  apply(assumption)
+  apply(erule conjE)
+  apply(erule_tac x=b1 in allE)
+  apply(erule impE)
+  apply(rule conjI)
+  apply(rule order_refl)
+  apply(assumption)
+  apply(erule conjE)
+  apply(erule antisym)
+  apply(assumption)
+  apply(erule_tac x=a2 in allE)
+  apply(erule impE)
+  apply(erule conjI)
+  apply(rule order_refl)
+  apply(erule_tac x=b2 in allE)
+  apply(erule impE)
+  apply(erule conjI)
+  apply(rule order_refl)
+  apply(elim conjE)
+  apply(erule antisym)
+  apply(assumption)
+  done
+
+theorem in_range_uniq: "\<forall>r1 \<in> R. \<forall>r2 \<in> R.
+    r1 = (a1, a2) \<and> r2 = (b1, b2)
+    \<longrightarrow> (\<forall>n. in_range n (a1, a2) \<longleftrightarrow> in_range n (b1, b2))
+    \<longrightarrow> range_eq (a1, a2) (b1, b2)"
+  apply(unfold R_def)
+  apply(subst range_eq.simps)
+  apply(subst in_range.simps)
+  apply(subst in_range.simps)
+  apply(intro ballI)
+  apply(intro impI)
+  apply(elim conjE)
+  apply(drule_tac a=r1 and b="(a1, a2)" in back_subst)
+  apply(assumption)
+  apply(drule_tac a=r2 and b="(b1, b2)" in back_subst)
+  apply(assumption)
+  apply(elim CollectE)
+  apply(elim exE)
+  apply(elim conjE)
+  apply(elim Pair_inject)
+  apply(drule_tac a=a1 and b=x and c=y in ord_eq_le_trans)
+  apply(assumption)
+  apply(drule_tac a=a1 and b=y and c=a2 in ord_le_eq_trans)
+  apply(erule sym)
+  apply(drule_tac a=b1 and b=xa and c=ya in ord_eq_le_trans)
+  apply(assumption)
+  apply(drule_tac a=b1 and b=ya and c=b2 in ord_le_eq_trans)
+  apply(erule sym)
+  apply(erule range_uniq)
+  apply(assumption)
+  apply(assumption)
+  done
+
 fun range_contains :: "(int \<times> int) \<Rightarrow> (int \<times> int) \<Rightarrow> bool" where
   "range_contains (a1, a2) (b1, b2) = (a1 \<le> b1 \<and> b2 \<le> a2)"
 
