@@ -319,3 +319,28 @@ theorem "range_contains (a1, a2) (b1, b2) \<Longrightarrow>
   apply(erule_tac t=a2 in ssubst)
   apply(assumption)
   done
+
+theorem range_contains_antisym: "range_contains (a1, a2) (b1, b2) \<and> range_contains (b1, b2) (a1, a2) \<longleftrightarrow> range_eq (a1, a2) (b1, b2)"
+  apply(subst range_contains.simps)
+  apply(subst range_contains.simps)
+  apply(subst range_eq.simps)
+  apply(rule iffI)
+  apply(elim conjE)
+  apply(rule conjI)
+  apply(erule antisym)
+  apply(assumption)
+  apply(erule_tac x=a2 in antisym)
+  apply(assumption)
+  apply(erule conjE)
+  apply(rule conjI)
+  apply(erule subst)
+  apply(erule subst)
+  apply(rule conjI)
+  apply(rule order_refl)
+  apply(rule order_refl)
+  apply(erule subst)
+  apply(erule subst)
+  apply(rule conjI)
+  apply(rule order_refl)
+  apply(rule order_refl)
+  done
