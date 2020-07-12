@@ -198,6 +198,24 @@ theorem "range_eq (a1, a2) (b1, b2) \<Longrightarrow>
   apply(rule refl)
   done
 
+theorem range_eq_sym: "range_eq (a1, a2) (b1, b2) \<longleftrightarrow> range_eq (b1, b2) (a1, a2)"
+  apply(subst range_eq.simps)
+  apply(subst range_eq.simps)
+  apply(rule iffI)
+  apply(erule conjE)
+  apply(erule subst)
+  apply(erule subst)
+  apply(rule conjI)
+  apply(rule refl)
+  apply(rule refl)
+  apply(erule conjE)
+  apply(erule subst)
+  apply(erule subst)
+  apply(rule conjI)
+  apply(rule refl)
+  apply(rule refl)
+  done
+
 lemma all_iffD: "(\<forall>x. P x \<longleftrightarrow> Q x) \<Longrightarrow> (\<forall>x. P x \<longrightarrow> Q x) \<and> (\<forall>x. Q x \<longrightarrow> P x)"
   apply(rule conjI)
   apply(rule allI)
