@@ -33,32 +33,32 @@ theorem "a > b \<Longrightarrow> (a, b) \<notin> R"
   apply(assumption)
   done
 
-fun lower_bound :: "(int \<times> int) \<Rightarrow> int" where
-  "lower_bound (x, y) = x"
+fun lower_endpoint :: "(int \<times> int) \<Rightarrow> int" where
+  "lower_endpoint (x, y) = x"
 
-fun upper_bound :: "(int \<times> int) \<Rightarrow> int" where
-  "upper_bound (x, y) = y"
+fun upper_endpoint :: "(int \<times> int) \<Rightarrow> int" where
+  "upper_endpoint (x, y) = y"
 
 (* NLS-2 *)
-theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_bound r"
+theorem "r \<in> R \<Longrightarrow> \<exists>x. x = lower_endpoint r"
   apply(unfold R_def)
   apply(erule CollectE)
   apply(elim exE)
   apply(drule conjunct1)
   apply(erule ssubst)
-  apply(subst lower_bound.simps)
+  apply(subst lower_endpoint.simps)
   apply(rule_tac x=x in exI)
   apply(rule refl)
   done
 
 (* NLS-2 *)
-theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_bound r"
+theorem "r \<in> R \<Longrightarrow> \<exists>x. x = upper_endpoint r"
   apply(unfold R_def)
   apply(erule CollectE)
   apply(elim exE)
   apply(drule conjunct1)
   apply(erule ssubst)
-  apply(subst upper_bound.simps)
+  apply(subst upper_endpoint.simps)
   apply(rule_tac x=y in exI)
   apply(rule refl)
   done
@@ -92,14 +92,14 @@ lemma example_3_8_in_R: "(3, 8) \<in> R"
   done
 
 (* NLS-10 *)
-theorem "lower_bound (3, 8) = 3"
-  apply(subst lower_bound.simps)
+theorem "lower_endpoint (3, 8) = 3"
+  apply(subst lower_endpoint.simps)
   apply(rule refl)
   done
 
 (* NLS-10 *)
-theorem "upper_bound (3, 8) = 8"
-  apply(subst upper_bound.simps)
+theorem "upper_endpoint (3, 8) = 8"
+  apply(subst upper_endpoint.simps)
   apply(rule refl)
   done
 
