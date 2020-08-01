@@ -1,4 +1,4 @@
-theory range imports Main begin
+theory Range imports Main begin
 
 (* NLS-1 *)
 definition R :: "(int \<times> int) set" where
