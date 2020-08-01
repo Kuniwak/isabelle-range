@@ -1,5 +1,5 @@
-Proof Drive Development Example
-===============================
+Proof Driven Development Example
+================================
 
 このサンプルは [TDDBC Online 2020 #1](https://tddbc.connpass.com/event/181973/) のお題「[整数の閉区間](https://gist.github.com/twada/75fb219c8cc180e9de166d8a58e877b0)」を証明駆動開発（Proof Driven Development; PDD）で解いたものです。
 
